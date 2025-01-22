@@ -106,7 +106,7 @@ def batch_caption_images(input_dir, api_key, system_prompt=VLM_SYSTEM_PROMPT_OPT
                         HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
                         HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
                     },
-                    generation_config={"temperature": 0.7}  
+                    generation_config={"temperature": 1}  
                 )
 
                 if response.text:
@@ -122,7 +122,7 @@ def batch_caption_images(input_dir, api_key, system_prompt=VLM_SYSTEM_PROMPT_OPT
                 print(f"Error processing {filename}: {str(e)}")
                 
 
-            # Enforce rate limit
+            
             elapsed = time.time() - start_time
             wait_time = max(request_interval - elapsed, 0)
             time.sleep(wait_time)  
@@ -132,15 +132,15 @@ def main():
     parser.add_argument('--input-dir', required=True, help='Path to the directory containing images.')
     parser.add_argument('--api-key', required=True, help='Your Google Gemini API key.')
     parser.add_argument('--request-interval', type=float, default=6.0,
-                        help='Time in seconds to wait between API requests.')  # Make request_interval configurable
+                        help='Time in seconds to wait between API requests.')  
     parser.add_argument('--prompt-version', type=str, default="optimized", choices=["original", "optimized"],
-                        help='Version of the system prompt to use ("original" or "optimized").') # Added prompt version argument
+                        help='Version of the system prompt to use ("original" or "optimized").') 
 
     args = parser.parse_args()
 
-    prompt_to_use = VLM_SYSTEM_PROMPT if args.prompt_version == "original" else VLM_SYSTEM_PROMPT_OPTIMIZED # Select prompt based on argument
+    prompt_to_use = VLM_SYSTEM_PROMPT if args.prompt_version == "original" else VLM_SYSTEM_PROMPT_OPTIMIZED 
 
-    batch_caption_images(args.input_dir, args.api_key, system_prompt=prompt_to_use, request_interval=args.request_interval) # Pass system prompt and request_interval
+    batch_caption_images(args.input_dir, args.api_key, system_prompt=prompt_to_use, request_interval=args.request_interval) 
 
 if __name__ == "__main__":
     main()
