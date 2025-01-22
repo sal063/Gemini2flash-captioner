@@ -3,7 +3,9 @@ Lil script i made using Python, basically uses Gemini 2 flash to batch caption i
 
 Required Python installs:
 pip install google-genai
+
 pip install Pillow
+
 pip install argparse
 
 Example on how to use it:
